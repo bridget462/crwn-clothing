@@ -3,6 +3,7 @@ import "./cart-icon.styles.scss";
 import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 import { connect } from "react-redux";
 import { toggleCartHidden } from "../../redux/cart/cart.actions";
+import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
 
 const CartIcon = ({ toggleCartHidden, itemCount }) => (
   <div className="cart-icon" onClick={toggleCartHidden}>
@@ -16,14 +17,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // to display total item count inside of icon counter
-const mapStateToProps = ({ cart: { cartItems } }) => {
+const mapStateToProps = (state) => {
   console.log("mapStateToProps called");
   return {
-    itemCount: cartItems.reduce(
-      (accumulatedQuantity, cartItem) =>
-        accumulatedQuantity + cartItem.quantity,
-      0
-    ),
+    itemCount:selectCartItemsCount(state)
   };
 };
 
