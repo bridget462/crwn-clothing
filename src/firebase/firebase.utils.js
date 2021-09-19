@@ -64,6 +64,22 @@ export const addCollectionAndDocuments = async (
   return await batch.commit();
 };
 
+// formatting shop collections for app
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { items, title } = doc.data();
+
+    return {
+      // encodeURI will return valid string for URL by removing invalid chars such as space
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+  console.log(transformedCollection);
+};
+
 // Google auth setting
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
